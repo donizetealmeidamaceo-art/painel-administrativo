@@ -8,3 +8,7 @@
 - [x] Implementar funcionalidade JavaScript para toggle
 - [x] Testar responsividade em diferentes tamanhos de tela
 - [x] Ajustes finais e otimizações
+- [ ] Criar página de login com campos de usuário e senha
+- [ ] Implementar autenticação simples com localStorage
+- [ ] Proteger acesso ao painel com verificação de token
+- [ ] Testar fluxo de login/logout

@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 
 export default function Home() {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const [username] = useState(() => localStorage.getItem('username') || 'Usuario');
 
   useEffect(() => {
     const savedState = localStorage.getItem('sidebarCollapsed');
@@ -14,6 +15,12 @@ export default function Home() {
     const newState = !sidebarCollapsed;
     setSidebarCollapsed(newState);
     localStorage.setItem('sidebarCollapsed', String(newState));
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem('authToken');
+    localStorage.removeItem('username');
+    window.location.href = '/login';
   };
 
   const handleCardClick = (text: string) => {
@@ -44,6 +51,19 @@ export default function Home() {
             </div>
           ))}
         </nav>
+        <div style={styles.sidebarFooter}>
+          <button
+            onClick={handleLogout}
+            style={{
+              ...styles.logoutBtn,
+              justifyContent: sidebarCollapsed ? 'center' : 'flex-start'
+            }}
+            title="Sair"
+          >
+            <span style={styles.navIcon}>🚪</span>
+            {!sidebarCollapsed && <span style={styles.navLabel}>Sair</span>}
+          </button>
+        </div>
         <button
           style={{
             ...styles.toggleBtn,
@@ -57,7 +77,12 @@ export default function Home() {
       </aside>
 
       <main style={styles.mainContent}>
-        <h1 style={styles.pageTitle}>Painel de Controle</h1>
+        <div style={styles.header}>
+          <h1 style={styles.pageTitle}>Painel de Controle</h1>
+          <div style={styles.userInfo}>
+            <span style={styles.userText}>Bem-vindo, {username}!</span>
+          </div>
+        </div>
         
         <div style={styles.cardsContainer}>
           {[
@@ -129,6 +154,28 @@ const styles = {
     fontSize: '14px',
     transition: 'opacity 0.3s ease'
   },
+  sidebarFooter: {
+    position: 'absolute' as const,
+    bottom: '20px',
+    left: 0,
+    right: 0,
+    paddingLeft: '0',
+    paddingRight: '0'
+  },
+  logoutBtn: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '15px',
+    padding: '15px 20px',
+    color: '#ffffff',
+    backgroundColor: 'transparent',
+    border: 'none',
+    cursor: 'pointer',
+    transition: 'background-color 0.3s ease',
+    width: '100%',
+    fontSize: '14px',
+    fontWeight: 500
+  },
   toggleBtn: {
     position: 'absolute' as const,
     right: '-15px',
@@ -156,12 +203,29 @@ const styles = {
     backgroundColor: '#f5f5f5',
     transition: 'margin-left 0.3s ease'
   },
+  header: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    width: '100%',
+    marginBottom: '50px',
+    flexWrap: 'wrap' as const,
+    gap: '20px',
+    maxWidth: '600px'
+  },
   pageTitle: {
     fontSize: '36px',
     fontWeight: 700,
     color: '#1e2a38',
-    marginBottom: '50px',
-    textAlign: 'center' as const
+    textAlign: 'center' as const,
+    margin: 0
+  },
+  userInfo: {
+    fontSize: '14px',
+    color: '#666'
+  },
+  userText: {
+    fontWeight: 500
   },
   cardsContainer: {
     display: 'flex',
