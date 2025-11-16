@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
+import { useAuth } from '@/contexts/AuthContext';
 
 export default function Home() {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
-  const [username] = useState(() => localStorage.getItem('username') || 'Usuario');
+  const { username, logout } = useAuth();
 
   useEffect(() => {
     const savedState = localStorage.getItem('sidebarCollapsed');
@@ -18,9 +19,7 @@ export default function Home() {
   };
 
   const handleLogout = () => {
-    localStorage.removeItem('authToken');
-    localStorage.removeItem('username');
-    window.location.href = '/login';
+    logout();
   };
 
   const handleCardClick = (text: string) => {
@@ -80,7 +79,7 @@ export default function Home() {
         <div style={styles.header}>
           <h1 style={styles.pageTitle}>Painel de Controle</h1>
           <div style={styles.userInfo}>
-            <span style={styles.userText}>Bem-vindo, {username}!</span>
+            <span style={styles.userText}>Bem-vindo, {username || 'Usuario'}!</span>
           </div>
         </div>
         
