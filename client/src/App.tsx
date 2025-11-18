@@ -7,6 +7,7 @@ import { ThemeProvider } from "./contexts/ThemeContext";
 import { AuthProvider, useAuth } from "./contexts/AuthContext";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
+import CadastroPessoa from "./pages/CadastroPessoa";
 
 function AppRouter() {
   const { isAuthenticated, isLoading } = useAuth();
@@ -22,6 +23,7 @@ function AppRouter() {
   return (
     <Switch>
       <Route path={"/login"} component={Login} />
+      <Route path={"/cadastro-pessoa"} component={() => isAuthenticated ? <CadastroPessoa /> : <Login />} />
       <Route path={"/"} component={() => isAuthenticated ? <Home /> : <Login />} />
       <Route path={"/404"} component={NotFound} />
       <Route component={NotFound} />

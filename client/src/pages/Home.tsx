@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react';
+import { useLocation } from 'wouter';
 import { useAuth } from '@/contexts/AuthContext';
 
 export default function Home() {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const [, setLocation] = useLocation();
   const { username, logout } = useAuth();
 
   useEffect(() => {
@@ -23,7 +25,16 @@ export default function Home() {
   };
 
   const handleCardClick = (text: string) => {
-    console.log('Clicado em: ' + text);
+    const routes: Record<string, string> = {
+      'Cadastrar Pessoa': '/cadastro-pessoa',
+      'Buscar Cadastro': '/busca',
+      'Usuários': '/usuarios',
+      'Relatórios': '/relatorios',
+      'Configurações': '/configuracoes'
+    };
+    if (routes[text]) {
+      setLocation(routes[text]);
+    }
   };
 
   return (
